@@ -17,7 +17,7 @@ This project is licensed under the MIT License. Please consider reading the LICE
 ### Getting the JAR
 To get the latest version of the library, download the latest release in the release section.
 ### In Code
-First you need to get your subdomain of your target restaurant. You can get yours by looking it up in the domain to your men plan.<br>
+First you need to get your subdomain of your target restaurant. You can get yours by looking it up in the domain to your menuplan.<br>
 ```https://[subdomain].sv-restaurant.ch/```<br>
 Now you can create your Restaurant:
 ```java
