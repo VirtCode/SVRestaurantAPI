@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class RestaurantProperties {
 
-    private String[] indoorProperties;
-    private String[] outdoorProperties;
+    private RestaurantPropertyList[] propertyCategories;
+
     private String teaserText;
     private RestaurantManager restaurantManager;
 
@@ -35,48 +35,15 @@ public class RestaurantProperties {
             teaserText = stringBuilder.toString();
         }
 
-        Elements properties = element.getElementsByClass("collapsible-container");
-        if (properties.size() >= 1){
-            indoorProperties = loadList(properties.get(0));
-            if (properties.size() >= 2) outdoorProperties = loadList(properties.get(1));
-
+        Elements properties = element.getElementsByClass("collapsible");
+        ArrayList<RestaurantPropertyList> propertyLists = new ArrayList<>();
+        for (Element property : properties) {
+            propertyLists.add(new RestaurantPropertyList(property));
         }
+
+        propertyCategories = propertyLists.toArray(new RestaurantPropertyList[0]);
     }
 
-    /**
-     * Loads a collapsible container from the site
-     * @param element element to load
-     * @return properties of the element
-     */
-    private String[] loadList(Element element){
-        Element div = element.getElementsByClass("text").get(1);
-        Element list = div.getAllElements().get(1);
-        ArrayList<String> properties = new ArrayList<>();
-        int index = 0;
-        for (Element allElement : list.getAllElements()) {
-            if(index != 0 && !allElement.toString().equals("<br>")) properties.add(allElement.text());
-            index++;
-        }
-        return properties.toArray(new String[0]);
-    }
-
-    /**
-     * Returns the outdoor properties aka the second properties
-     * (in most restaurants they are accessible and are the terasse properties)
-     * @return outdoor properties aka the second properties
-     */
-    public String[] getIndoorProperties() {
-        return indoorProperties;
-    }
-
-    /**
-     * Returns the indoor properties aka the main properties
-     * (for almost every restaurant accessible)
-     * @return indoor properties aka the main properties
-     */
-    public String[] getOutdoorProperties() {
-        return outdoorProperties;
-    }
 
     /**
      * Returns the teaser text that describes the restaurant
@@ -85,6 +52,14 @@ public class RestaurantProperties {
      */
     public String getTeaserText() {
         return teaserText;
+    }
+
+    /**
+     * Returns a list of all property containers found
+     * @return property containers
+     */
+    public RestaurantPropertyList[] getPropertyCategories() {
+        return propertyCategories;
     }
 
     /**

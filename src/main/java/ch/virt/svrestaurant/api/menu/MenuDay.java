@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * This class represents a single day with its provided menues
+ * This class represents a single day with its provided menus
  * @author VirtCode
  * @version 1.0
  */
 public class MenuDay {
 
     private Date date;
-    private Menu[] menues;
+    private Menu[] menus;
 
     /**
      * Scrapes all the menu items from the day
@@ -26,7 +26,7 @@ public class MenuDay {
             items.add(new Menu(item));
         }
         this.date = date;
-        this .menues = items.toArray(new Menu[0]);
+        this .menus = items.toArray(new Menu[0]);
     }
 
     /**
@@ -38,11 +38,11 @@ public class MenuDay {
     }
 
     /**
-     * Returns the menues at the day
-     * @return menues at the day
+     * Returns the menus at the day
+     * @return menus at the day
      */
-    public Menu[] getMenues(){
-        return menues;
+    public Menu[] getMenus(){
+        return menus;
     }
 
 

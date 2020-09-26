@@ -14,12 +14,8 @@ import java.io.IOException;
  */
 public class Restaurant {
 
-    public static final String URL_SUFFIX = ".sv-restaurant.ch/de/";
-    public static final String URL_MENUPLAN = "menuplan/";
-    public static final String URL_ABOUT = "ueber-uns/";
-    public static final String URL_PREFIX = "https://";
+    UrlManager urls;
 
-    private String subdomain;
     private String name;
 
     private MenuWeek week;
@@ -29,16 +25,19 @@ public class Restaurant {
      * Creates a restaurant
      * @param subdomain subdomain of the restaurant (before the .sv-restaurant.ch) without the https stuff
      */
-    public Restaurant(String subdomain){
-        this.subdomain = subdomain;
+    public Restaurant(String subdomain, UrlManager.Lang language){
+        urls = new UrlManager(language, subdomain);
+    }
+    public Restaurant(String subdomain, UrlManager.Lang language, String subplan){
+        urls = new UrlManager(language, subdomain, subplan);
     }
 
     /**
      * Scrapes the menu information from the website
      * @throws IOException exception when no internet connection
      */
-    public void fetchMenues() throws IOException {
-        Document doc = Jsoup.connect(URL_PREFIX + subdomain + URL_SUFFIX + URL_MENUPLAN).get();
+    public void fetchMenus() throws IOException {
+        Document doc = Jsoup.connect(urls.composeMenuPlan()).get();
         week = new MenuWeek(doc.getElementsByClass("menu-plan-wrap").get(0));
     }
 
@@ -47,7 +46,7 @@ public class Restaurant {
      * @throws IOException exception when no internet connection
      */
     public void fetchData() throws IOException {
-        Document doc = Jsoup.connect(URL_PREFIX + subdomain + URL_SUFFIX + URL_ABOUT).get();
+        Document doc = Jsoup.connect(urls.composeAbout()).get();
         name = doc.title().substring("Uber uns - ".length());
         properties = new RestaurantProperties(doc.getElementsByClass("l-content").get(0));
     }
@@ -57,7 +56,7 @@ public class Restaurant {
      * @return subdomain of the restaurant
      */
     public String getSubdomain() {
-        return subdomain;
+        return urls.getSubdomain();
     }
 
     /**
@@ -70,9 +69,9 @@ public class Restaurant {
     }
 
     /**
-     * Returns the week with the menues
-     * (depends on fetchMenues)
-     * @return week with the menues
+     * Returns the week with the menus
+     * (depends on fetchMenus)
+     * @return week with the menus
      */
     public MenuWeek getMenuWeek() {
         return week;
