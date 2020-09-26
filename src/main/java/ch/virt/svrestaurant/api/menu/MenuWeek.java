@@ -63,18 +63,20 @@ public class MenuWeek {
         }
         return dates.toArray(new Date[0]);
     }
-
     /**
      * Returns the day acording to the date given
-     * @param date day of date
-     * @param month month of date
-     * @param year year of date
+     * @param date date
      * @return day with menu data
      */
-    public MenuDay getDay(int date, int month, int year){
+    public MenuDay getDay(Date date){
+        Calendar time = Calendar.getInstance();
+        time.setTime(date);
+
         for (MenuDay day : days) {
-            Date d = day.getDate();
-            if (d.getDate() == date && d.getMonth() == month && d.getYear() == year) return day;
+            Calendar menutime = Calendar.getInstance();
+            menutime.setTime(day.getDate());
+            if (menutime.get(Calendar.DAY_OF_YEAR) == time.get(Calendar.DAY_OF_YEAR) &&
+                    menutime.get(Calendar.YEAR) == time.get(Calendar.YEAR)) return day;
         }
         return null;
     }

@@ -4,7 +4,7 @@ This API provides its user with the information about a sv-restaurant and with i
 ### Disclaimer
 This project is in no way associated with the SV-Group nor is it official in any point.
 ## Version
-The current version is **1.0**
+The current version is **1.1.1**
 ## Features
 * Get the Menuplan
     * All Menus
